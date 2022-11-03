@@ -5,15 +5,30 @@ using DG.Tweening;
 
 public class UiDotween : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Awake()
+    public float fadeTime = 1f;
+    public List<GameObject> buttons = new List<GameObject>();
+
+   
+    void Start()
     {
-        GetComponent<MeshRenderer>().material.DOFade(0, 1).SetLoops(-1, LoopType.Yoyo);
+        StartCoroutine("CoButtonAnimation");
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator CoButtonAnimation()
     {
-        
+        Debug.Log("ButtonStart!");
+    
+        foreach(var button in buttons)
+        {
+            button.transform.localScale = Vector3.zero;
+
+        }
+        foreach(var button in buttons)
+        {
+            button.transform.DOScale(1f, fadeTime)
+                .SetEase(Ease.OutBounce);
+
+            yield return new WaitForSeconds(0.25f);
+        }
     }
 }
